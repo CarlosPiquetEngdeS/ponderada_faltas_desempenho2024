@@ -139,6 +139,11 @@
             font-weight: bold;
         }
 
+        /* Nova classe para nome em alerta */
+        .nome-alerta {
+            color: red;
+        }
+
         #resultado {
             margin-top: 20px;
             text-align: center;
@@ -281,7 +286,11 @@
 
             if (percentFaltas > 26.00) {
                 resultado += ' <span class="alert">Atenção!</span>';
+                document.getElementById('nome').classList.add('nome-alerta'); // Adiciona a classe para mudar a cor
+            } else {
+                document.getElementById('nome').classList.remove('nome-alerta'); // Remove a classe caso a condição não seja satisfeita
             }
+
             if (percentFaltas >= 75) {
                 resultado += ' <span class="alert">Taxa de Faltas Alta!</span>';
             }
@@ -382,9 +391,6 @@
             const lineHeight = 6;
             const larguraMaximaTexto = 40;
             const larguraPagina = doc.internal.pageSize.getWidth();
-            const alturaPagina = doc.internal.pageSize.getHeight();
-            doc.setFont("times");
-            doc.setFontSize(11);
 
             let yPos = marginTop;
 
@@ -399,11 +405,22 @@
 
             // Título e informações do usuário
             doc.setFont("times", "bold");
+            doc.setFontSize(12);
             doc.text("Relatório de Faltas", marginLeft, yPos);
             yPos += lineHeight;
 
             doc.setFont("times", "normal");
+            doc.setFontSize(10);
+
+            // Alterar cor do nome para vermelho se as faltas ultrapassarem 26%
+            if (percentFaltas > 26.00) {
+                doc.setTextColor(255, 0, 0); // Vermelho
+            } else {
+                doc.setTextColor(0, 0, 0); // Preto padrão
+            }
             doc.text(`Nome: ${nome}`, marginLeft, yPos);
+            doc.setTextColor(0, 0, 0); // Resetar a cor para o restante do texto
+
             yPos += lineHeight;
             doc.text(`E-mail: ${email}`, marginLeft, yPos);
             yPos += lineHeight;
