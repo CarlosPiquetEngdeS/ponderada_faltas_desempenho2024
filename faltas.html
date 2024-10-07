@@ -67,7 +67,7 @@
         }
 
         #admissao {
-            width: calc(20% - 20px);
+            width: calc(20% - 12px);
             /* Reduzido para 50% da largura */
         }
 
@@ -405,12 +405,12 @@
 
             // Título e informações do usuário
             doc.setFont("times", "bold");
-            doc.setFontSize(12);
+            doc.setFontSize(10);
             doc.text("Relatório de Faltas", marginLeft, yPos);
             yPos += lineHeight;
 
             doc.setFont("times", "normal");
-            doc.setFontSize(10);
+            doc.setFontSize(8);
 
             // Alterar cor do nome para vermelho se as faltas ultrapassarem 26%
             if (percentFaltas > 26.00) {
