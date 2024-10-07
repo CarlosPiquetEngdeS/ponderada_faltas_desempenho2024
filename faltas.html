@@ -230,6 +230,8 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
     <script>
+        let chart; // Variável global para armazenar o gráfico
+
         function gerarCamposEventos() {
             let numEventos = parseInt(document.getElementById('eventos').value);
             const container = document.getElementById('eventosContainer');
@@ -297,12 +299,16 @@
 
             document.getElementById('resultado').innerHTML = resultado;
 
+            // Renderiza o gráfico com os dados atualizados
             renderizarGrafico(percentPresencas, percentFaltas, percentJustificativas);
         }
 
         function renderizarGrafico(percentPresencas, percentFaltas, percentJustificativas) {
             const ctx = document.getElementById('graficoDesempenho').getContext('2d');
-            new Chart(ctx, {
+            if (chart) {
+                chart.destroy(); // Destrói o gráfico existente se já houver um
+            }
+            chart = new Chart(ctx, {
                 type: 'bar',
                 data: {
                     labels: ['Presenças (%)', 'Faltas (%)', 'Justificativas (%)'],
@@ -504,7 +510,18 @@
             doc.setTextColor(0, 0, 0);
 
             doc.save('relatorio_faltas.pdf');
+
+            // Limpa apenas os campos de Status e Observação Justificativa
+            statusEventos.forEach(input => {
+                input.value = '';  // Limpa o status (P/F/J)
+            });
+
+            obsJustificativas.forEach(input => {
+                input.value = '';  // Limpa a observação justificativa
+                input.style.display = 'none'; // Oculta o campo de observação
+            });
         }
+
     </script>
 </body>
 
